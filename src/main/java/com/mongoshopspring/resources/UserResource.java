@@ -1,6 +1,7 @@
 package com.mongoshopspring.resources;
 
 import com.mongoshopspring.domain.User;
+import com.mongoshopspring.dto.UserDTO;
 import com.mongoshopspring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,15 @@ public class UserResource {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserDTO>> findAll() {
         List<User> users = this.userService.findAll();
-        
+
+        List<UserDTO> userListDto = users.stream()
+                .map(UserDTO::new)
+                .collect(java.util.stream.Collectors.toList());
+
         return ResponseEntity.ok()
-                .body(users);
+                .body(userListDto);
 
     }
 }

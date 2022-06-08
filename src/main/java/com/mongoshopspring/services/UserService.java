@@ -17,7 +17,5 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> findAll() {
-        return this.userRepository.findAll();
-    }
+    public List<User> findAll() { return this.userRepository.findAll(); }
 }

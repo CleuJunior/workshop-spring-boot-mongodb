@@ -27,5 +27,25 @@ public class UserService {
 
     public User insertUser(User userObj) { return this.userRepository.insert(userObj); }
 
+    public void deleteUser(String id) {
+        findById(id);
+        this.userRepository.deleteById(id);
+    }
+
+    public User userUpdate(User userObj) {
+        User newObjectUser = this.userRepository
+                .findById(userObj.getId())
+                .orElseThrow(() -> new ObjectNotFoundException("User ID not Found"));
+
+        updateData(newObjectUser, userObj);
+
+        return this.userRepository.save(userObj);
+    }
+
+    private void updateData(User newObjectUser, User userObj) {
+        newObjectUser.setName(userObj.getName());
+        newObjectUser.setEmail(userObj.getEmail());
+    }
+
     public User fromDTO(UserDTO dtoObj) { return new User(dtoObj.getId(), dtoObj.getName(), dtoObj.getEmail()); }
 }
